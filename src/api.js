@@ -47,7 +47,7 @@ const processStats = (data) => {
   let totalIncome = 0;
   let donationsCount = 0;
   
-  const dailyMap = {};
+  const monthlyMap = {};
   const contributorsMap = {};
 
   rows.forEach(row => {
@@ -57,11 +57,11 @@ const processStats = (data) => {
     totalIncome += amount;
     donationsCount++;
 
-    // Статистика по днях
+    // Статистика по місяцях
     const dateObj = new Date(Number(row.time) * 1000);
-    const dateStr = dateObj.toISOString().split('T')[0];
-    if (!dailyMap[dateStr]) dailyMap[dateStr] = 0;
-    dailyMap[dateStr] += amount;
+    const monthStr = dateObj.toISOString().slice(0, 7); // Формат YYYY-MM
+    if (!monthlyMap[monthStr]) monthlyMap[monthStr] = 0;
+    monthlyMap[monthStr] += amount;
 
     // Топ донаторів
     const name = row.description || 'Анонім';
@@ -69,11 +69,11 @@ const processStats = (data) => {
     contributorsMap[name] += amount;
   });
 
-  const dailyStats = Object.keys(dailyMap)
-    .sort((a, b) => new Date(a).getTime() - new Date(b).getTime()) // для графіка від старих до нових
-    .map(date => ({
-      date,
-      amount: dailyMap[date]
+  const dailyStats = Object.keys(monthlyMap)
+    .sort((a, b) => new Date(a + '-01').getTime() - new Date(b + '-01').getTime()) // для графіка від старих до нових
+    .map(month => ({
+      date: month,
+      amount: monthlyMap[month]
     }));
 
   const contributors = Object.keys(contributorsMap)
