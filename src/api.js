@@ -22,13 +22,15 @@ const fetchAndParseCSV = () => {
   });
 };
 
+const JAR_TITLE = import.meta.env.VITE_JAR_TITLE || 'Збір у реальному часі';
+
 const processStats = (data) => {
   // Фільтруємо порожні рядки
   const rows = data.filter(r => r.amount && r.time);
   
   if (rows.length === 0) {
     return {
-      title: 'Збір (Google Таблиця)',
+      title: JAR_TITLE,
       balance: 0,
       totalIncome: 0,
       donationsCount: 0,
@@ -85,7 +87,7 @@ const processStats = (data) => {
   const currentBalance = rows.length > 0 ? Number(rows[0].balance) : 0;
 
   return {
-    title: 'Збір (Google Таблиця)',
+    title: JAR_TITLE,
     balance: currentBalance,
     totalIncome,
     donationsCount,
