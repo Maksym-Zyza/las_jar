@@ -22,7 +22,7 @@ const fetchAndParseCSV = () => {
   });
 };
 
-const JAR_TITLE = import.meta.env.VITE_JAR_TITLE || 'Збір у реальному часі';
+const JAR_TITLE = import.meta.env.VITE_JAR_TITLE || 'ЛАС Внески';
 
 const processStats = (data) => {
   // Фільтруємо порожні рядки
